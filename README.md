@@ -1,4 +1,4 @@
-[![C/C++ CI](https://github.com/nimbus9inc/ZiGate/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/nimbus9inc/ZiGate/actions/workflows/c-cpp.yml)
+[![C/C++ CI](https://github.com/nimbus9inc/ZiGate/actions/workflows/jn5168-coordinator.yml/badge.svg)](https://github.com/nimbus9inc/ZiGate/actions/workflows/jn5168-coordinator.yml)
 
 # ZiGate
 

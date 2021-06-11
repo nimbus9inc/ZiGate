@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: JN5168 Coordinator
 
 on:
   push:
