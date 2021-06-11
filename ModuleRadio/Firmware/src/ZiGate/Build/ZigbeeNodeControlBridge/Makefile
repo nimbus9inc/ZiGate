@@ -37,7 +37,6 @@ TARGET  =    ZigbeeNodeControlBridge
 # User definable make parameters that may be overwritten from the command line
 # Chip variant
 VERSION                ?= 197406
-SW_BUILD_ID            ?= 0000001
 HARDWARE_VERSION       ?= 01
 MANUFACTURER_NAME      ?= Nimbus9
 MANUFACTURER_CODE      ?= 0000
@@ -69,6 +68,8 @@ GP_SUPPORT             ?= 0
 TRACE                  ?= 0
 
 DEBUG                  ?= NONE
+
+SW_BUILD_ID            ?= PDM$(PDM_BUILD_TYPE)
 ###############################################################################
 # un-comment the lines below for Debugger
 # Debug options - define DEBUG to enable
@@ -97,9 +98,9 @@ GENERATED_FILE_NAME    ?= $(TARGET)_$(JENNIC_CHIP)_GP_Proxy_$(NODE)_$(BAUD)
 endif
 
 ifneq ($(DEBUG), NONE)
-RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)_PDM$(PDM_BUILD_TYPE)_Baud$(BAUD)_Debug$(DEBUG)
+RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)_$(SW_BUILD_ID)_Baud$(BAUD)_Debug$(DEBUG)
 else
-RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)_PDM$(PDM_BUILD_TYPE)_Baud$(BAUD)
+RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)-$(SW_BUILD_ID)_Baud$(BAUD)
 endif
 
 ###############################################################################
