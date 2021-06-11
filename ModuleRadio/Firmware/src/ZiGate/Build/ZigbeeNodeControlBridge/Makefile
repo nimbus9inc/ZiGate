@@ -98,7 +98,7 @@ GENERATED_FILE_NAME    ?= $(TARGET)_$(JENNIC_CHIP)_GP_Proxy_$(NODE)_$(BAUD)
 endif
 
 ifneq ($(DEBUG), NONE)
-RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)_$(SW_BUILD_ID)_Baud$(BAUD)_Debug$(DEBUG)
+RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)-$(SW_BUILD_ID)_Baud$(BAUD)_Debug$(DEBUG)
 else
 RELEASE_FILE_NAME ?= ZigbeeCoordinator_v$(VERSION)-$(SW_BUILD_ID)_Baud$(BAUD)
 endif
