@@ -61,6 +61,18 @@ jobs:
                            TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
                            BAUD=$BAUD \
                            JENNIC_CHIP=$JENNIC_CHIP \
+                           SW_BUILD_ID=$(git rev-parse --short "$GITHUB_SHA")_PDM_EEPROM \
+                           MANUFACTURER_NAME=$MANUFACTURER_NAME \
+                           VERSION=$(printf "%d" $VERSION) \
+                           HARDWARE_VERSION=$(printf "%d" $HARDWARE_VERSION) \
+                           MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
+                           DEBUG=UART1 \
+                           TRACE=1 \
+                           release clean
+        make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
+                           TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
+                           BAUD=$BAUD \
+                           JENNIC_CHIP=$JENNIC_CHIP \
                            SW_BUILD_ID=$(git rev-parse --short "$GITHUB_SHA")_PDM_NONE \
                            MANUFACTURER_NAME=$MANUFACTURER_NAME \
                            VERSION=$(printf "%d" $VERSION) \
@@ -81,6 +93,20 @@ jobs:
                            STACK_SIZE=5300 \
                            PDM_BUILD_TYPE=_NONE \
                            DEBUG=UART0 \
+                           TRACE=1 \
+                           release clean
+        make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
+                           TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
+                           BAUD=$BAUD \
+                           JENNIC_CHIP=$JENNIC_CHIP \
+                           SW_BUILD_ID=$(git rev-parse --short "$GITHUB_SHA")_PDM_NONE \
+                           MANUFACTURER_NAME=$MANUFACTURER_NAME \
+                           VERSION=$(printf "%d" $VERSION) \
+                           HARDWARE_VERSION=$(printf "%d" $HARDWARE_VERSION) \
+                           MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
+                           STACK_SIZE=5300 \
+                           PDM_BUILD_TYPE=_NONE \
+                           DEBUG=UART1 \
                            TRACE=1 \
                            release clean
         echo "::set-output name=status::success"
