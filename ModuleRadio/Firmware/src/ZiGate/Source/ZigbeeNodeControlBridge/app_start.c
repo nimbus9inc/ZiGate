@@ -122,8 +122,16 @@
 #endif
 
 #if (JENNIC_CHIP_FAMILY == JN516x)
+#ifndef LED1_DIO_PIN_NUM
 #define LED1_DIO_PIN                                              ( 1 << 16 )
+#else
+#define LED1_DIO_PIN                                              ( 1 << LED1_DIO_PIN_NUM )
+#endif
+#ifndef LED2_DIO_PIN_NUM
 #define LED2_DIO_PIN                                              ( 1 << 17 )
+#else
+#define LED2_DIO_PIN                                              ( 1 << LED2_DIO_PIN_NUM )
+#endif
 
 #define LED_DIO_PINS                                             ( LED1_DIO_PIN |\
                                                                    LED2_DIO_PIN )
@@ -132,8 +140,16 @@
 
 #if (JENNIC_CHIP_FAMILY == JN517x)
 
+#ifndef LED1_DIO_PIN_NUM
 #define LED1_DIO_PIN                                              ( 1 << 14 )
+#else
+#define LED1_DIO_PIN                                              ( 1 << LED1_DIO_PIN_NUM )
+#endif
+#ifndef LED2_DIO_PIN_NUM
 #define LED2_DIO_PIN                                              ( 1 << 15 )
+#else
+#define LED2_DIO_PIN                                              ( 1 << LED2_DIO_PIN_NUM )
+#endif
 
 #define LED_DIO_PINS                                             ( LED1_DIO_PIN |\
                                                                    LED2_DIO_PIN )

@@ -37,9 +37,11 @@ TARGET  =    ZigbeeNodeControlBridge
 # User definable make parameters that may be overwritten from the command line
 # Chip variant
 VERSION                ?= 197406
+DATE_CODE              ?= 2021-06-16
 HARDWARE_VERSION       ?= 01
 MANUFACTURER_NAME      ?= Nimbus9
 MANUFACTURER_CODE      ?= 0000
+MODEL_IDENTIFIER       ?= ZiGate
 JENNIC_CHIP            ?= JN5169
 JENNIC_CHIP_FAMILY     ?= JN516x
 JENNIC_PCB             ?= DEVKIT2
@@ -50,6 +52,10 @@ JENNIC_CHIP_FAMILY     ?= JN516x
 JENNIC_SDK             ?= JN-SW-4170
 ZNCLKCMD                = AppBuildZBPro.ld
 JENNIC_PCB              = DEVKIT4
+
+LED1_DIO_PIN           ?= 16
+LED2_DIO_PIN           ?= 17
+
 else
 ifeq ($(JENNIC_CHIP_FAMILY),JN517x)
 JENNIC_CHIP            ?= JN5179
@@ -57,6 +63,10 @@ JENNIC_CHIP_FAMILY     ?= JN517x
 JENNIC_SDK             ?= JN-SW-4270
 ZNCLKCMD                = AppBuildZBPro.ld
 JENNIC_PCB              = DEVKIT5
+
+LED1_DIO_PIN           ?= 14
+LED2_DIO_PIN           ?= 15
+
 endif
 endif
 ZBPRO_DEVICE_TYPE		= ZCR
@@ -125,10 +135,16 @@ CFLAGS	+= -D$(CRC_NEW)
 # Version/manufacturer flags
 #
 CFLAGS  += -DVERSION=$(VERSION)
+CFLAGS  += -DCLD_BAS_ATTR_DATE_CODE=$(DATE_CODE)
 CFLAGS  += -DCLD_BAS_ATTR_SW_BUILD_ID=$(SW_BUILD_ID)
 CFLAGS  += -DCLD_BAS_ATTR_HARDWARE_VERSION=$(HARDWARE_VERSION)
 CFLAGS  += -DCLD_BAS_ATTR_MANUFACTURER_NAME=$(MANUFACTURER_NAME)
+CFLAGS  += -DCLD_BAS_ATTR_MODEL_IDENTIFIER=$(MODEL_IDENTIFIER)
 CFLAGS  += -DZCL_MANUFACTURER_CODE=$(MANUFACTURER_CODE)
+
+# LED DIO flags
+CFLAGS  += -DLED1_DIO_PIN_NUM=$(LED1_DIO_PIN)
+CFLAGS  += -DLED2_DIO_PIN_NUM=$(LED2_DIO_PIN)
 
 ifeq ($(DEBUG), UART1)
 CFLAGS  += -DDBG_ENABLE
