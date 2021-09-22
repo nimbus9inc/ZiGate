@@ -20,6 +20,7 @@ env:
   HARDWARE_VERSION: 0x01
   MANUFACTURER_NAME: Nimbus9
   MANUFACTURER_CODE: 0x0000
+  DISCOVERY_LED_DIO_PIN: 11
 
 jobs:
   build:
@@ -44,6 +45,7 @@ jobs:
                            VERSION=$(printf "%d" $VERSION) \
                            HARDWARE_VERSION=$(printf "%d" $HARDWARE_VERSION) \
                            MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
         make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
                            TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
@@ -56,6 +58,7 @@ jobs:
                            MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
                            DEBUG=UART0 \
                            TRACE=1 \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
         make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
                            TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
@@ -68,6 +71,7 @@ jobs:
                            MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
                            DEBUG=UART1 \
                            TRACE=1 \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
         make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
                            TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
@@ -80,6 +84,7 @@ jobs:
                            MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
                            STACK_SIZE=5300 \
                            PDM_BUILD_TYPE=_NONE \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
         make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
                            TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
@@ -94,6 +99,7 @@ jobs:
                            PDM_BUILD_TYPE=_NONE \
                            DEBUG=UART0 \
                            TRACE=1 \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
         make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
                            TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
@@ -108,6 +114,7 @@ jobs:
                            PDM_BUILD_TYPE=_NONE \
                            DEBUG=UART1 \
                            TRACE=1 \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
         echo "::set-output name=status::success"
     - name: Upload a Build Artifact
