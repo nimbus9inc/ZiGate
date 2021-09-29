@@ -335,6 +335,8 @@ PUBLIC void vAppMain(void)
     sSet.u16CredNodesCount = ZNC_MAX_TCLK_DEVICES;
     sSet.u16SectorSize = 32 * 1024;
 
+    vAHI_DioSetOutput ( 0, LED2_DIO_PIN );
+
 #ifdef JN5168
     	sSet.u8SectorSet   = 7;
 #else
@@ -423,6 +425,8 @@ PUBLIC void vAppMain(void)
                           ( uint8* ) &sZllState.eNodeState,
                           0);
     }
+    vAHI_DioSetOutput ( LED2_DIO_PIN, 0 );
+
     ZTIMER_eStart ( u8TickTimer, ZCL_TICK_TIME );
 
     DBG_vPrintf( TRACE_APPSTART, "APP: Entering APP_vMainLoop()\n");

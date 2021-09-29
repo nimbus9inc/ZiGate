@@ -101,6 +101,8 @@
 /***        Macro Definitions                                             ***/
 /****************************************************************************/
 #define ALIGN(n, v)     ( ((uint32)(v) + ((n) - 1)) & (~((n) - 1)) )
+#define xstr(s) str(s)
+#define str(s) #s
 /****************************************************************************/
 /***        Type Definitions                                              ***/
 /****************************************************************************/
@@ -557,7 +559,14 @@ PRIVATE void APP_ZCL_cbEndpointCallback ( tsZCL_CallBackEvent*    psEvent )
 
             /* Send event upwards */
             ZNC_BUF_U8_UPD  ( &au8LinkTxBuffer [0],          psEvent->u8TransactionSequenceNumber,                               u16Length );
-            ZNC_BUF_U16_UPD ( &au8LinkTxBuffer [u16Length],  psEvent->pZPSevent->uEvent.sApsDataIndEvent.uSrcAddress.u16Addr,    u16Length );
+            if(psEvent->pZPSevent->uEvent.sApsDataIndEvent.u8SrcAddrMode == ZPS_E_ADDR_MODE_IEEE)
+            {
+                ZNC_BUF_U64_UPD  ( &au8LinkTxBuffer [u16Length],  psEvent->pZPSevent->uEvent.sApsDataIndEvent.uSrcAddress.u64Addr,    u16Length );
+            }
+            else
+            {
+                ZNC_BUF_U16_UPD  ( &au8LinkTxBuffer [u16Length],  psEvent->pZPSevent->uEvent.sApsDataIndEvent.uSrcAddress.u16Addr,    u16Length );
+            }
             ZNC_BUF_U8_UPD  ( &au8LinkTxBuffer [u16Length],  psEvent->pZPSevent->uEvent.sApsDataIndEvent.u8SrcEndpoint,          u16Length );
             ZNC_BUF_U16_UPD ( &au8LinkTxBuffer [u16Length],  psEvent->pZPSevent->uEvent.sApsDataIndEvent.u16ClusterId,           u16Length );
             ZNC_BUF_U16_UPD ( &au8LinkTxBuffer [u16Length],  psEvent->uMessage.sIndividualAttributeResponse.u16AttributeEnum,    u16Length );
@@ -569,7 +578,7 @@ PRIVATE void APP_ZCL_cbEndpointCallback ( tsZCL_CallBackEvent*    psEvent )
             ZNC_BUF_U16_UPD ( &au8LinkTxBuffer [u16Length],  u16SizeOfAttribute,                                                 u16Length );
             if ( u16SizeOfAttribute !=  0 )
             {
-                vLog_Printf(TRACE_ZB_CONTROLBRIDGE_TASK,LOG_DEBUG,"\nEl�ment : %d\n",i);
+                vLog_Printf(TRACE_ZB_CONTROLBRIDGE_TASK,LOG_DEBUG,"\nElement : %d\n",i);
                 while ( i <  u16Elements )
                 {
                     if( ( psEvent->uMessage.sIndividualAttributeResponse.eAttributeDataType ==  E_ZCL_OSTRING ) ||
@@ -1380,10 +1389,29 @@ PRIVATE void APP_ZCL_cbZllUtilityCallback ( tsZCL_CallBackEvent*    psEvent )
 void vAPP_ZCL_DeviceSpecific_Init ( void )
 {
     /* Initialise the strings in Basic */
-    memcpy ( sControlBridge.sBasicServerCluster.au8ManufacturerName, "NXP", CLD_BAS_MANUF_NAME_SIZE );
-    memcpy ( sControlBridge.sBasicServerCluster.au8ModelIdentifier, "ZLL-ControlBridge", CLD_BAS_MODEL_ID_SIZE );
-    memcpy ( sControlBridge.sBasicServerCluster.au8DateCode, "20121212", CLD_BAS_DATE_SIZE );
-    memcpy ( sControlBridge.sBasicServerCluster.au8SWBuildID, "2000-0001", CLD_BAS_SW_BUILD_SIZE );
+    memcpy(
+        sControlBridge.sBasicServerCluster.au8ManufacturerName,
+        xstr(CLD_BAS_ATTR_MANUFACTURER_NAME),
+        sizeof(xstr(CLD_BAS_ATTR_MANUFACTURER_NAME))
+    );
+
+    memcpy(
+        sControlBridge.sBasicServerCluster.au8ModelIdentifier,
+        xstr(CLD_BAS_ATTR_MODEL_IDENTIFIER),
+        sizeof(xstr(CLD_BAS_ATTR_MODEL_IDENTIFIER))
+    );
+
+    memcpy(
+        sControlBridge.sBasicServerCluster.au8DateCode,
+        xstr(CLD_BAS_ATTR_DATE_CODE),
+        sizeof(xstr(CLD_BAS_ATTR_DATE_CODE))
+    );
+
+    memcpy(
+        sControlBridge.sBasicServerCluster.au8SWBuildID,
+        xstr(CLD_BAS_ATTR_SW_BUILD_ID),
+        sizeof(xstr(CLD_BAS_ATTR_SW_BUILD_ID))
+    );
 }
 
 /****************************************************************************
