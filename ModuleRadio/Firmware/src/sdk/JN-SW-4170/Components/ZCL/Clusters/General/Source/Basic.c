@@ -78,7 +78,7 @@
 /****************************************************************************/
 #ifdef ZCL_COMMAND_DISCOVERY_SUPPORTED
     const tsZCL_CommandDefinition asCLD_BasicClusterCommandDefinitions[] = {
-        {E_CLD_BASIC_CMD_RESET_TO_FACTORY_DEFAULTS,             E_ZCL_CF_RX}     /* Mandatory */    
+        {E_CLD_BASIC_CMD_RESET_TO_FACTORY_DEFAULTS,             E_ZCL_CF_RX}     /* Mandatory */
     };
 #endif
 
@@ -117,19 +117,19 @@ const tsZCL_AttributeDefinition asCLD_BasicClusterAttributeDefinitions[] = {
 
         {E_CLD_BAS_ATTR_ID_POWER_SOURCE,            E_ZCL_AF_RD,                E_ZCL_ENUM8,    (uint32)(&((tsCLD_Basic*)(0))->ePowerSource),0},  /* Mandatory */
 
-    #ifdef CLD_BAS_ATTR_GENERIC_DEVICE_CLASS    
+    #ifdef CLD_BAS_ATTR_GENERIC_DEVICE_CLASS
         {E_CLD_BAS_ATTR_ID_GENERIC_DEVICE_CLASS,    E_ZCL_AF_RD,                E_ZCL_ENUM8,    (uint32)(&((tsCLD_Basic*)(0))->eGenericDeviceClass),0},  /* Optional */
     #endif
 
-    #ifdef CLD_BAS_ATTR_GENERIC_DEVICE_TYPE    
+    #ifdef CLD_BAS_ATTR_GENERIC_DEVICE_TYPE
         {E_CLD_BAS_ATTR_ID_GENERIC_DEVICE_TYPE,     E_ZCL_AF_RD,                E_ZCL_ENUM8,    (uint32)(&((tsCLD_Basic*)(0))->eGenericDeviceType),0},  /* Optional */
     #endif
-     
-    #ifdef CLD_BAS_ATTR_PRODUCT_CODE    
+
+    #ifdef CLD_BAS_ATTR_PRODUCT_CODE
         {E_CLD_BAS_ATTR_ID_PRODUCT_CODE,            E_ZCL_AF_RD,                E_ZCL_OSTRING,  (uint32)(&((tsCLD_Basic*)(0))->sProductCode),0},
     #endif
 
-    #ifdef CLD_BAS_ATTR_PRODUCT_URL   
+    #ifdef CLD_BAS_ATTR_PRODUCT_URL
         {E_CLD_BAS_ATTR_ID_PRODUCT_URL,             E_ZCL_AF_RD,                E_ZCL_CSTRING,  (uint32)(&((tsCLD_Basic*)(0))->sProductURL),0},
     #endif
 
@@ -163,7 +163,7 @@ const tsZCL_AttributeDefinition asCLD_BasicClusterAttributeDefinitions[] = {
 		{E_CLD_BAS_ATTR_ID_XIAOMI_FF02,             E_ZCL_AF_RD,                E_ZCL_CSTRING,    (uint32)(&((tsCLD_Basic*)(0))->sDataXiaomiConfig2),0},
 	#endif
 
-#endif    
+#endif
        {E_CLD_GLOBAL_ATTR_ID_CLUSTER_REVISION,      (E_ZCL_AF_RD|E_ZCL_AF_GA),  E_ZCL_UINT16,    (uint32)(&((tsCLD_Basic*)(0))->u16ClusterRevision),0},   /* Mandatory  */
 };
 
@@ -174,11 +174,11 @@ tsZCL_ClusterDefinition sCLD_Basic = {
         (sizeof(asCLD_BasicClusterAttributeDefinitions) / sizeof(tsZCL_AttributeDefinition)),
         (tsZCL_AttributeDefinition*)asCLD_BasicClusterAttributeDefinitions,
         NULL
-        #ifdef ZCL_COMMAND_DISCOVERY_SUPPORTED        
+        #ifdef ZCL_COMMAND_DISCOVERY_SUPPORTED
             ,
             (sizeof(asCLD_BasicClusterCommandDefinitions) / sizeof(tsZCL_CommandDefinition)),
-            (tsZCL_CommandDefinition*)asCLD_BasicClusterCommandDefinitions         
-        #endif        
+            (tsZCL_CommandDefinition*)asCLD_BasicClusterCommandDefinitions
+        #endif
 };
 uint8 au8BasicClusterAttributeControlBits[(sizeof(asCLD_BasicClusterAttributeDefinitions) / sizeof(tsZCL_AttributeDefinition))];
 
@@ -215,7 +215,7 @@ uint8 au8BasicClusterAttributeControlBits[(sizeof(asCLD_BasicClusterAttributeDef
 
         {E_CLD_BAS_ATTR_ID_POWER_SOURCE,            E_ZCL_AF_RD,                E_ZCL_ENUM8,    (uint32)(&((tsCLD_Basic*)(0))->ePowerSource),0},  /* Mandatory */
 
-     
+
     #ifdef CLD_BAS_MIRROR_ATTR_LOCATION_DESCRIPTION
         {E_CLD_BAS_ATTR_ID_LOCATION_DESCRIPTION,    (E_ZCL_AF_RD | E_ZCL_AF_WR),  E_ZCL_CSTRING,  (uint32)(&((tsCLD_Basic*)(0))->sLocationDescription),0},
     #endif
@@ -240,7 +240,7 @@ uint8 au8BasicClusterAttributeControlBits[(sizeof(asCLD_BasicClusterAttributeDef
     };
 
     uint8  au8BasicMirrorClusterAttributeControlBits[CLD_SM_NUMBER_OF_MIRRORS][(sizeof(asCLD_BasicClusterMirrorAttributeDefinitions) / sizeof(tsZCL_AttributeDefinition))];
-    
+
     /****************************************************************************
      *
      * NAME: eSE_RegisterMirroredBasicCluster
@@ -305,7 +305,7 @@ PUBLIC  teZCL_Status eCLD_BasicCreateBasic(
                 void                               *pvEndPointSharedStructPtr,
                 uint8                              *pu8AttributeControlBits)
 {
-    #ifdef STRICT_PARAM_CHECK 
+    #ifdef STRICT_PARAM_CHECK
         /* Parameter check */
         if((psClusterInstance==NULL) ||
            (psClusterDefinition==NULL)  )
@@ -316,7 +316,7 @@ PUBLIC  teZCL_Status eCLD_BasicCreateBasic(
 
     /* Create an instance of a basic cluster */
     vZCL_InitializeClusterInstance(
-           psClusterInstance, 
+           psClusterInstance,
            bIsServer,
            psClusterDefinition,
            pvEndPointSharedStructPtr,
@@ -326,7 +326,7 @@ PUBLIC  teZCL_Status eCLD_BasicCreateBasic(
 
         if(pvEndPointSharedStructPtr  != NULL)
         {
-#ifdef BASIC_SERVER            
+#ifdef BASIC_SERVER
             /* Initialise attributes defaults */
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->u8ZCLVersion = 0x02;
 
@@ -343,62 +343,62 @@ PUBLIC  teZCL_Status eCLD_BasicCreateBasic(
         #endif
 
         #ifdef CLD_BAS_ATTR_MANUFACTURER_NAME
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sManufacturerName.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ManufacturerName);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sManufacturerName.u8Length = CLD_BAS_MANUF_NAME_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sManufacturerName.u8MaxLength = CLD_BAS_MANUF_NAME_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sManufacturerName.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ManufacturerName);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sManufacturerName.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ManufacturerName;
         #endif
 
         #ifdef CLD_BAS_ATTR_MODEL_IDENTIFIER
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sModelIdentifier.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ModelIdentifier);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sModelIdentifier.u8Length = CLD_BAS_MODEL_ID_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sModelIdentifier.u8MaxLength = CLD_BAS_MODEL_ID_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sModelIdentifier.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ModelIdentifier);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sModelIdentifier.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ModelIdentifier;
         #endif
 
         #ifdef CLD_BAS_ATTR_DATE_CODE
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDateCode.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DateCode);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDateCode.u8Length = CLD_BAS_DATE_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDateCode.u8MaxLength = CLD_BAS_DATE_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDateCode.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DateCode);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDateCode.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DateCode;
         #endif
 
 		#ifdef CLD_BAS_ATTR_ID_XIAOMI_FF01
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DataXiaomiConfig);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig.u8Length = 32;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig.u8MaxLength = 32;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DataXiaomiConfig);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DataXiaomiConfig;
         #endif
 
 		#ifdef CLD_BAS_ATTR_ID_XIAOMI_FF02
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig2.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DataXiaomiConfig2);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig2.u8Length = 32;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig2.u8MaxLength = 32;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig2.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DataXiaomiConfig2);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sDataXiaomiConfig2.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8DataXiaomiConfig2;
         #endif
 
         ((tsCLD_Basic*)pvEndPointSharedStructPtr)->ePowerSource = CLD_BAS_POWER_SOURCE;
-        
+
         #ifdef CLD_BAS_ATTR_GENERIC_DEVICE_CLASS
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->eGenericDeviceClass = CLD_BAS_DEVICE_CLASS;
         #endif
-        
+
         #ifdef CLD_BAS_ATTR_GENERIC_DEVICE_TYPE
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->eGenericDeviceType = 0xFF;
         #endif
-        
+
         #ifdef CLD_BAS_ATTR_PRODUCT_CODE
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductCode.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ProductCode);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductCode.u8Length = CLD_BAS_PCODE_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductCode.u8MaxLength = CLD_BAS_PCODE_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductCode.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ProductCode);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductCode.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ProductCode;
         #endif
 
         #ifdef CLD_BAS_ATTR_PRODUCT_URL
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductURL.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ProductURL);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductURL.u8Length = CLD_BAS_URL_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductURL.u8MaxLength = CLD_BAS_URL_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductURL.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ProductURL);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sProductURL.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8ProductURL;
         #endif
 
-        
+
 
         #ifdef CLD_BAS_ATTR_LOCATION_DESCRIPTION
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sLocationDescription.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8LocationDescription);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sLocationDescription.u8Length = 0;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sLocationDescription.u8MaxLength = 0;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sLocationDescription.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8LocationDescription);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sLocationDescription.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8LocationDescription;
         #endif
 
@@ -419,8 +419,8 @@ PUBLIC  teZCL_Status eCLD_BasicCreateBasic(
         #endif
 
         #ifdef CLD_BAS_ATTR_SW_BUILD_ID
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sSWBuildID.u8MaxLength = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8SWBuildID);
-            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sSWBuildID.u8Length = CLD_BAS_SW_BUILD_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sSWBuildID.u8MaxLength = CLD_BAS_SW_BUILD_SIZE;
+            ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sSWBuildID.u8Length = sizeof(((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8SWBuildID);
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->sSWBuildID.pu8Data = ((tsCLD_Basic*)pvEndPointSharedStructPtr)->au8SWBuildID;
         #endif
 
@@ -435,7 +435,7 @@ PUBLIC  teZCL_Status eCLD_BasicCreateBasic(
 
 
 
-#endif        
+#endif
             ((tsCLD_Basic*)pvEndPointSharedStructPtr)->u16ClusterRevision = CLD_BAS_CLUSTER_REVISION;
         }
 

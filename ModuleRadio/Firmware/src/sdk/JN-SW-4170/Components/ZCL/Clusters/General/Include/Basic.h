@@ -130,20 +130,20 @@
 #define CLD_BAS_HARDWARE_VERSION    (0x00)
 #endif
 #ifndef CLD_BAS_MANUF_NAME_SIZE
-#define CLD_BAS_MANUF_NAME_SIZE     (0)
+#define CLD_BAS_MANUF_NAME_SIZE     (32)
 #endif
 #ifndef CLD_BAS_MODEL_ID_SIZE
-#define CLD_BAS_MODEL_ID_SIZE       (0)
+#define CLD_BAS_MODEL_ID_SIZE       (32)
 #endif
 #ifndef CLD_BAS_DATE_SIZE
-#define CLD_BAS_DATE_SIZE           (0)
+#define CLD_BAS_DATE_SIZE           (16)
 #endif
 #ifndef CLD_BAS_POWER_SOURCE
 #define CLD_BAS_POWER_SOURCE        E_CLD_BAS_PS_UNKNOWN
 #endif
 
 #ifndef CLD_BAS_SW_BUILD_SIZE
-#define CLD_BAS_SW_BUILD_SIZE       (0)
+#define CLD_BAS_SW_BUILD_SIZE       (16)
 #endif
 #ifndef CLD_BAS_URL_SIZE
 #define CLD_BAS_URL_SIZE            (0)
@@ -244,7 +244,7 @@
 
 #ifndef CLD_BAS_CLUSTER_REVISION
     #define CLD_BAS_CLUSTER_REVISION                         1
-#endif 
+#endif
 
 #define CLD_BASIC_NUMBER_OF_OPTIONAL_ATTRIBUTE  \
     ATTR_APPLICATION_VERSION        +           \
@@ -264,24 +264,24 @@
 #define CLD_BASIC_MAX_NUMBER_OF_ATTRIBUTE       \
     CLD_BASIC_NUMBER_OF_OPTIONAL_ATTRIBUTE +    \
     CLD_BASIC_NUMBER_OF_MANDATORY_ATTRIBUTE
-    
+
 #ifndef CLD_BASIC_MAX_NUMBER_OF_BYTES_PRODUCT_CODE
     #define CLD_BASIC_MAX_NUMBER_OF_BYTES_PRODUCT_CODE                    16
 #endif
 #ifndef CLD_BASIC_MAX_NUMBER_OF_BYTES_PRODUCT_URL
     #define CLD_BASIC_MAX_NUMBER_OF_BYTES_PRODUCT_URL                     32
-#endif    
+#endif
 /****************************************************************************/
 /***        Type Definitions                                              ***/
 /****************************************************************************/
 
 /* Command codes */
-typedef enum 
+typedef enum
 {
     E_CLD_BASIC_CMD_RESET_TO_FACTORY_DEFAULTS    = 0x00
 } teCLD_Basic_Command;
 
-typedef enum 
+typedef enum
 {
     /* Basic Device Information attribute set attribute ID's (3.2.2.2.1) */
     E_CLD_BAS_ATTR_ID_ZCL_VERSION                = 0x0000, /* Mandatory */
@@ -292,7 +292,7 @@ typedef enum
     E_CLD_BAS_ATTR_ID_MODEL_IDENTIFIER,
     E_CLD_BAS_ATTR_ID_DATE_CODE,
     E_CLD_BAS_ATTR_ID_POWER_SOURCE,                       /* Mandatory */
-    
+
     /* ZLO extension to Basic cluster */
     E_CLD_BAS_ATTR_ID_GENERIC_DEVICE_CLASS,
     E_CLD_BAS_ATTR_ID_GENERIC_DEVICE_TYPE,
@@ -313,13 +313,13 @@ typedef enum
 
 
 /* Generic Device Class */
-typedef enum 
+typedef enum
 {
     E_CLD_BAS_GENERIC_DEVICE_CLASS_LIGHTING         = 0x00,
 } teCLD_BAS_GenericDeviceClass;
 
 /* Generic Device Type */
-typedef enum 
+typedef enum
 {
     E_CLD_BAS_GENERIC_DEVICE_TYPE_INCANDESCENT       = 0x00,
     E_CLD_BAS_GENERIC_DEVICE_TYPE_SPOTLIGHT_HALOGEN,
@@ -347,7 +347,7 @@ typedef enum
 } teCLD_BAS_GenericDeviceType;
 
 /* Power source */
-typedef enum 
+typedef enum
 {
     E_CLD_BAS_PS_UNKNOWN                                            = 0x00,
     E_CLD_BAS_PS_SINGLE_PHASE_MAINS,
@@ -366,7 +366,7 @@ typedef enum
 } teCLD_BAS_PowerSource;
 
 /* Physical Environment */
-typedef enum 
+typedef enum
 {
     E_CLD_BAS_PE_UNSPECIFIED                                       = 0x00,
     E_CLD_BAS_PE_MIRROR,
@@ -497,17 +497,17 @@ typedef struct
 
 #ifdef CLD_BAS_ATTR_MANUFACTURER_NAME
     tsZCL_CharacterString       sManufacturerName;
-    uint8                       au8ManufacturerName[32];
+    uint8                       au8ManufacturerName[CLD_BAS_MANUF_NAME_SIZE];
 #endif
 
 #ifdef CLD_BAS_ATTR_MODEL_IDENTIFIER
     tsZCL_CharacterString       sModelIdentifier;
-    uint8                       au8ModelIdentifier[32];
+    uint8                       au8ModelIdentifier[CLD_BAS_MODEL_ID_SIZE];
 #endif
 
 #ifdef CLD_BAS_ATTR_DATE_CODE
     tsZCL_CharacterString       sDateCode;
-    uint8                       au8DateCode[16];
+    uint8                       au8DateCode[CLD_BAS_DATE_SIZE];
 #endif
 
 #ifdef CLD_BAS_ATTR_APPLICATION_LEGRAND
@@ -516,24 +516,24 @@ typedef struct
 
     zenum8                      ePowerSource;
 
-#ifdef CLD_BAS_ATTR_GENERIC_DEVICE_CLASS    
+#ifdef CLD_BAS_ATTR_GENERIC_DEVICE_CLASS
     zenum8                      eGenericDeviceClass;
 #endif
 
-#ifdef CLD_BAS_ATTR_GENERIC_DEVICE_TYPE    
+#ifdef CLD_BAS_ATTR_GENERIC_DEVICE_TYPE
     zenum8                      eGenericDeviceType;
 #endif
- 
-#ifdef CLD_BAS_ATTR_PRODUCT_CODE    
+
+#ifdef CLD_BAS_ATTR_PRODUCT_CODE
     tsZCL_OctetString           sProductCode;
     uint8                       au8ProductCode[CLD_BASIC_MAX_NUMBER_OF_BYTES_PRODUCT_CODE];
 #endif
 
-#ifdef CLD_BAS_ATTR_PRODUCT_URL   
+#ifdef CLD_BAS_ATTR_PRODUCT_URL
     tsZCL_CharacterString       sProductURL;
     uint8                       au8ProductURL[CLD_BASIC_MAX_NUMBER_OF_BYTES_PRODUCT_URL];
 #endif
-    
+
 #ifdef CLD_BAS_ATTR_LOCATION_DESCRIPTION
     tsZCL_CharacterString       sLocationDescription;
     uint8                       au8LocationDescription[16];
@@ -557,7 +557,7 @@ typedef struct
 
 #ifdef CLD_BAS_ATTR_SW_BUILD_ID
     tsZCL_CharacterString       sSWBuildID;
-    uint8                       au8SWBuildID[16];
+    uint8                       au8SWBuildID[CLD_BAS_SW_BUILD_SIZE];
 #endif
 
 #ifdef CLD_BAS_ATTR_ID_XIAOMI_FF01
@@ -612,7 +612,7 @@ typedef struct
 #endif
 
     zenum8                      ePowerSource;
-   
+
 #ifdef CLD_BAS_MIRROR_ATTR_LOCATION_DESCRIPTION
     tsZCL_CharacterString       sLocationDescription;
     uint8                       au8LocationDescription[16];
@@ -635,7 +635,7 @@ typedef struct
 #endif
 
     zuint16                      u16ClusterRevision;
-    
+
 } tsCLD_BasicMirror;
 
 
@@ -681,7 +681,7 @@ teZCL_Status eSE_RegisterMirroredBasicCluster(uint8 u8MirrorNum,
 extern tsZCL_ClusterDefinition sCLD_Basic;
 extern const tsZCL_AttributeDefinition asCLD_BasicClusterAttributeDefinitions[];
 extern uint8 au8BasicClusterAttributeControlBits[];
-    
+
 /****************************************************************************/
 /***        END OF FILE                                                   ***/
 /****************************************************************************/
