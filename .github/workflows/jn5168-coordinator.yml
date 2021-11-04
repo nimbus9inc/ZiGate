@@ -30,10 +30,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install pip3 (if necessary)
+      run: dpkg-query -l python3-pip || (apt-get update -y && apt-get install -y python3-pip)
     - name: Get toolchain
       run: wget https://github.com/openlumi/BA2-toolchain/releases/download/20201219/ba-toolchain-20201219.tar.bz2 -O - | tar -jx -C $SDK_DIR
-    - name: Install pip3
-      run: apt-get update -y && apt-get install -y python3-pip
     - name: Install xmltodict
       run: pip3 install xmltodict
     - name: make
