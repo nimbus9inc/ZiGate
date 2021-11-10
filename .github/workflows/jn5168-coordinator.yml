@@ -30,6 +30,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install pip3 (if necessary)
+      run: dpkg-query -l python3-pip || (apt-get update -y && apt-get install -y python3-pip)
     - name: Get toolchain
       run: wget https://github.com/openlumi/BA2-toolchain/releases/download/20201219/ba-toolchain-20201219.tar.bz2 -O - | tar -jx -C $SDK_DIR
     - name: Install xmltodict
@@ -117,10 +119,53 @@ jobs:
                            TRACE=1 \
                            LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
                            release clean
+        make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
+                           TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
+                           BAUD=$BAUD \
+                           JENNIC_CHIP=$JENNIC_CHIP \
+                           SW_BUILD_ID=$(git rev-parse --short "$GITHUB_SHA")_PDM_NONE \
+                           MANUFACTURER_NAME=$MANUFACTURER_NAME \
+                           VERSION=$(printf "%d" $VERSION) \
+                           HARDWARE_VERSION=$(printf "%d" $HARDWARE_VERSION) \
+                           MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
+                           STACK_SIZE=$HOST_PDM_STACK_SIZE \
+                           PDM_BUILD_TYPE=_NONE \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
+                           release clean
+        make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
+                           TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
+                           BAUD=$BAUD \
+                           JENNIC_CHIP=$JENNIC_CHIP \
+                           SW_BUILD_ID=$(git rev-parse --short "$GITHUB_SHA")_PDM_NONE \
+                           MANUFACTURER_NAME=$MANUFACTURER_NAME \
+                           VERSION=$(printf "%d" $VERSION) \
+                           HARDWARE_VERSION=$(printf "%d" $HARDWARE_VERSION) \
+                           MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
+                           STACK_SIZE=$HOST_PDM_STACK_SIZE \
+                           PDM_BUILD_TYPE=_NONE \
+                           DEBUG=UART0 \
+                           TRACE=1 \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
+                           release clean
+        make -C $BUILD_DIR TOOL_COMMON_BASE_DIR=$GITHUB_WORKSPACE/$SDK_DIR \
+                           TOOLCHAIN_PATH=$TOOLCHAIN_PATH \
+                           BAUD=$BAUD \
+                           JENNIC_CHIP=$JENNIC_CHIP \
+                           SW_BUILD_ID=$(git rev-parse --short "$GITHUB_SHA")_PDM_NONE \
+                           MANUFACTURER_NAME=$MANUFACTURER_NAME \
+                           VERSION=$(printf "%d" $VERSION) \
+                           HARDWARE_VERSION=$(printf "%d" $HARDWARE_VERSION) \
+                           MANUFACTURER_CODE=$(printf "%d" $MANUFACTURER_CODE) \
+                           STACK_SIZE=$HOST_PDM_STACK_SIZE \
+                           PDM_BUILD_TYPE=_NONE \
+                           DEBUG=UART1 \
+                           TRACE=1 \
+                           LED2_DIO_PIN=$DISCOVERY_LED_DIO_PIN \
+                           release clean
         echo "::set-output name=status::success"
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
-      if: steps.make.outputs.status == 'success' && !cancelled()
+      if: steps.make.outputs.status == 'success' && !cancelled() && !env.ACT
       with:
         # Artifact name
         name: release

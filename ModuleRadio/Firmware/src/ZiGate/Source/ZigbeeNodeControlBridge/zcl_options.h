@@ -253,11 +253,11 @@
 #define CLD_BAS_APP_VERSION             (1)
 #define CLD_BAS_STACK_VERSION           (1)
 #define CLD_BAS_HARDWARE_VERSION        (1)
-#define CLD_BAS_MANUF_NAME_SIZE         (3)
-#define CLD_BAS_MODEL_ID_SIZE           (17)
-#define CLD_BAS_DATE_SIZE               (8)
+#define CLD_BAS_MANUF_NAME_SIZE         (32)
+#define CLD_BAS_MODEL_ID_SIZE           (32)
+#define CLD_BAS_DATE_SIZE               (16)
 #define CLD_BAS_POWER_SOURCE            E_CLD_BAS_PS_BATTERY
-#define CLD_BAS_SW_BUILD_SIZE           (9)
+#define CLD_BAS_SW_BUILD_SIZE           (16)
 #define CLD_BAS_CONFIG_MODEL_ID_SIZE    CLD_BAS_MODEL_ID_SIZE
 
 #ifdef  CLD_GREENPOWER

@@ -81,6 +81,19 @@ volatile uint8 u8QueueByte;
 OS_thMutex  s_hPdmMutex;
 #endif
 PDM_tsRecordDescriptor     *pHead = NULL;
+#ifdef PDM_DEBUG
+#define PDM_IDS_LENGTH 18
+uint16 pdmCalls [PDM_IDS_LENGTH] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+/****************************************************************************/
+/***        Local Function Prototypes                                     ***/
+/****************************************************************************/
+PUBLIC void PDM_vWaitHost(void);
+
+PRIVATE uint8 u8MapPDMRecordId( uint16 u16PDMRecordId );
+PRIVATE uint16 u8UnmapPDMRecordId( uint8 u8PDMCounterIndex );
+#endif
+
 /****************************************************************************/
 /***        Exported Public Functions                                     ***/
 /****************************************************************************/
@@ -326,6 +339,23 @@ PUBLIC PDM_teStatus PDM_eSaveRecordData(
 #endif
     )
 {
+#ifdef PDM_DEBUG
+    // Keep track of save record calls for optimizing host PDM save behavior
+    //
+    if (u8MapPDMRecordId(u16IdValue) > -1) {
+        int i;
+        if (pdmCalls[u8MapPDMRecordId(u16IdValue)] < 0xffff) {
+            DBG_vPrintf( TRACE_DEBUG, "\nSaving record %04x [call %d]", u16IdValue, pdmCalls[u8MapPDMRecordId(u16IdValue)]++);
+        } else {
+          // Print and re-initialize record count values to prevent overflow
+          //
+          for (i = 0; i < PDM_IDS_LENGTH; i++) {
+            DBG_vPrintf( TRACE_DEBUG, "\nRecord save count for %04x: %d", u8UnmapPDMRecordId(i), pdmCalls[i]);
+            pdmCalls[i] = 0;
+          }
+        }
+    }
+#endif
 	uint8 au8Buffer[MAX_PACKET_SIZE],
 			*pu8Buffer,
 			*pdmBuffer,
@@ -1055,6 +1085,69 @@ PUBLIC void PDM_vWaitHost(void)
 /****************************************************************************/
 /***        Local Functions                                      */
 /****************************************************************************/
+#ifdef PDM_DEBUG
+PRIVATE uint8 u8MapPDMRecordId( uint16 u16PDMRecordId )
+{
+    switch(u16PDMRecordId) {
+       case 0x0001:
+       case 0x0002:
+       case 0x0003:
+          return u16PDMRecordId - 0x0001;
+       case 0x0010:
+          return u16PDMRecordId - 0x0010 + 3;
+       case 0xa103:
+       case 0xa104:
+          return u16PDMRecordId - 0xa103 + 4;
+       case 0xf000:
+       case 0xf001:
+       case 0xf002:
+       case 0xf003:
+       case 0xf004:
+       case 0xf005:
+          return u16PDMRecordId - 0xf000 + 6;
+       case 0xf100:
+       case 0xf101:
+       case 0xf102:
+       case 0xf103:
+       case 0xf104:
+       case 0xf105:
+          return u16PDMRecordId - 0xf100 + 12;
+       default:
+          return 0;
+    }
+}
+
+PRIVATE uint16 u8UnmapPDMRecordId( uint8 u8PDMCounterIndex )
+{
+    switch(u8PDMCounterIndex) {
+       case 0:
+       case 1:
+       case 2:
+          return u8PDMCounterIndex - 0 + 0x0001;
+       case 3:
+          return u8PDMCounterIndex - 3 + 0x0010;
+       case 4:
+       case 5:
+          return u8PDMCounterIndex - 4 + 0xa103;
+       case 6:
+       case 7:
+       case 8:
+       case 9:
+       case 10:
+       case 11:
+          return u8PDMCounterIndex - 6 + 0xf000;
+       case 12:
+       case 13:
+       case 14:
+       case 15:
+       case 16:
+       case 17:
+          return u8PDMCounterIndex - 12 + 0xf100;
+       default:
+          return 0x0000;
+    }
+}
+#endif
 
 
 /****************************************************************************/
